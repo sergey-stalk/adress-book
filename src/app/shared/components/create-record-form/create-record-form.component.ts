@@ -20,18 +20,14 @@ export class CreateRecordFormComponent implements OnInit {
     phone: false
   };
 
-  createRecordForm = new FormGroup({
-    surname: this.getInitialFormControl(),
-    name: this.getInitialFormControl(),
-    patronymic: this.getInitialFormControl(),
-    phone: this.getInitialFormControl(inputTextRegExp)
-  });
+  createRecordForm: FormGroup;
 
   tableData: IRowData[];
 
   ngOnInit(): void {
     this.listenOnTableDataLoaded();
     this.listenOnDataUpdated();
+    this.initForm();
   }
 
   onSubmit(): void {
@@ -70,6 +66,15 @@ export class CreateRecordFormComponent implements OnInit {
   private listenOnDataUpdated(): void {
     this.httpService.dataUpdated.subscribe((data: IRowData[]) => {
       this.tableData = data;
+    });
+  }
+
+  private initForm(): void {
+    this.createRecordForm = new FormGroup({
+      surname: this.getInitialFormControl(),
+      name: this.getInitialFormControl(),
+      patronymic: this.getInitialFormControl(),
+      phone: this.getInitialFormControl(inputTextRegExp)
     });
   }
 }
