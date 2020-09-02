@@ -1,48 +1,59 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpService} from '../../../core/http.service';
-import {map} from 'rxjs/operators';
-import {ICheckedEvent, IRowData, ITableData} from '../../entities/models/main-model.model';
-import {untilDestroyed} from '@ngneat/until-destroy';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpService } from '../../../core/http.service';
+import { pluck, takeUntil } from 'rxjs/operators';
+import { ICheckedEvent, IRowData } from '../../entities/models/main-model.interfaces';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+    selector: 'app-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss']
 })
 
-export class TableComponent implements OnInit {
-  constructor(private httpService: HttpService) { }
+export class TableComponent implements OnInit, OnDestroy {
+    constructor(private httpService: HttpService) {
+    }
 
-  tableData: any;
+    tableData: IRowData[];
 
-  ngOnInit(): void {
-    this.httpService.getTableData()
-      .pipe(
-        map(dataObj => dataObj.data),
-      ).subscribe((data: ITableData) => {
-        this.tableData = this.sortFavorite(data);
-      });
+    private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
 
-    this.httpService.dataUpdated.subscribe((data: ITableData) => {
-        this.tableData = this.sortFavorite(data);
-      });
-  }
+    ngOnInit(): void {
+        this.listenOnDataLoaded();
+        this.listenOnDataChanged();
+    }
 
-  sortFavorite(data: ITableData): ITableData {
-    data.sort((item) => item.favorite ? -1 : 1);
-    return data;
-  }
+    ngOnDestroy(): void {
+        this.componentDestroyed$.next(true);
+    }
 
-  deleteRecord(id: string): void {
-    this.tableData = this.tableData.filter((item: IRowData, index: number) => {
-      return index !== Number(id);
-    });
-    this.httpService.putData(this.tableData);
-  }
+    sortFavorite(data: IRowData[]): void {
+        this.tableData = data.sort((item) => item.favorite ? -1 : 1);
+    }
 
-  checkedInput(valueArr: ICheckedEvent): void {
-    this.tableData[valueArr.id].favorite = !valueArr.value;
-    this.httpService.putData(this.tableData);
-  }
+    deleteRecord(id: string): void {
+        this.tableData = this.tableData.filter((item: IRowData, index: number) => {
+            return index !== Number(id);
+        });
+        this.httpService.putData(this.tableData);
+    }
+
+    checkedInput(valueArr: ICheckedEvent): void {
+        this.tableData[valueArr.id].favorite = !valueArr.value;
+        this.httpService.putData(this.tableData);
+    }
+
+    private listenOnDataLoaded(): void {
+        this.httpService.getTableData()
+            .pipe(
+                pluck('data')
+            ).subscribe(this.sortFavorite.bind(this));
+    }
+
+    private listenOnDataChanged(): void {
+        this.httpService.dataUpdated
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(this.sortFavorite.bind(this));
+    }
 
 }

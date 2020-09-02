@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from '../../../core/http.service';
-import {IFormError, IRowData, ITableData} from '../../entities/models/main-model.model';
+import {IFormError, IRowData, ITableData} from '../../entities/models/main-model.interfaces';
 import {inputPhoneRegExp, inputTextRegExp} from '../../entities/constants/reg-exp.const';
 
 @Component({
@@ -21,29 +21,22 @@ export class CreateRecordFormComponent implements OnInit {
   };
 
   createRecordForm = new FormGroup({
-    surname: new FormControl('', [Validators.required, Validators.pattern(inputTextRegExp)]),
-    name: new FormControl('', [Validators.required, Validators.pattern(inputTextRegExp)]),
-    patronymic: new FormControl('', [Validators.required, Validators.pattern(inputTextRegExp)]),
-    phone: new FormControl('', [Validators.required, Validators.pattern(inputPhoneRegExp)])
+    surname: this.getInitialFormControl(),
+    name: this.getInitialFormControl(),
+    patronymic: this.getInitialFormControl(),
+    phone: this.getInitialFormControl(inputTextRegExp)
   });
 
   tableData: IRowData[];
 
   ngOnInit(): void {
-    this.httpService.getTableData().subscribe((tableData: ITableData) => {
-      this.tableData = [...tableData.data];
-    });
-
-    this.httpService.dataUpdated.subscribe((data: IRowData[]) => {
-      this.tableData = data;
-    });
+    this.listenOnTableDataLoaded();
+    this.listenOnDataUpdated();
   }
 
   onSubmit(): void {
     if (this.createRecordForm.valid) {
-      const tableDataWithFavorite = {...this.createRecordForm.value, favorite: false};
-
-      this.tableData.push(tableDataWithFavorite);
+      this.tableData.push({...this.createRecordForm.value, favorite: false});
       this.httpService.putData(this.tableData);
       this.createRecordForm.reset();
       this.resetError();
@@ -62,5 +55,21 @@ export class CreateRecordFormComponent implements OnInit {
     const errorKey = Object.keys(this.errors);
 
     this.errors = errorKey.reduce(( acc, cur) => ({ ...acc, [cur]: false }), {}) as IFormError;
+  }
+
+  private getInitialFormControl(validatorPattern: RegExp = inputPhoneRegExp): FormControl {
+    return new FormControl('', [Validators.required, Validators.pattern(validatorPattern)]);
+  }
+
+  private listenOnTableDataLoaded(): void {
+    this.httpService.getTableData().subscribe(({ data }: ITableData) => {
+      this.tableData = [ ...data ];
+    });
+  }
+
+  private listenOnDataUpdated(): void {
+    this.httpService.dataUpdated.subscribe((data: IRowData[]) => {
+      this.tableData = data;
+    });
   }
 }

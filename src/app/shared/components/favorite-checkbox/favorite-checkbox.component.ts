@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {IRowData} from '../../entities/models/main-model.model';
+import {IRowData} from '../../entities/models/main-model.interfaces';
 
 @Component({
   selector: 'app-favorite-checkbox',
@@ -13,8 +13,6 @@ export class FavoriteCheckboxComponent implements OnInit {
   @Input() rowData: IRowData;
   @Output() checked = new EventEmitter();
 
-  constructor() { }
-
   favorite = new FormControl(false);
 
   ngOnInit(): void {
@@ -22,7 +20,6 @@ export class FavoriteCheckboxComponent implements OnInit {
   }
 
   checkedInput(): void {
-    console.log(this.favorite.value);
     this.checked.emit({
       id: this.rowId,
       value: this.favorite.value
