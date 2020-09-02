@@ -55,12 +55,12 @@ export class CreateRecordFormComponent implements OnInit {
   getError(): void {
     const formKeys = Object.keys(this.createRecordForm.controls);
 
-    this.errors = formKeys.reduce((acc, cur) => ({...acc, [cur]: !!this.createRecordForm.get(cur).errors}), {}) as IFormError;
+    this.errors = formKeys.reduce(( acc, cur) => ({ ...acc, [cur]: !!this.createRecordForm.get(cur).errors}), {}) as IFormError;
   }
 
   resetError(): void {
     const errorKey = Object.keys(this.errors);
 
-    this.errors = errorKey.reduce((acc, cur) => ({...acc, [cur]: false}), {}) as IFormError;
+    this.errors = errorKey.reduce(( acc, cur) => ({ ...acc, [cur]: false }), {}) as IFormError;
   }
 }

@@ -23,14 +23,10 @@ describe('CreateRecordFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe( 'onSubmit', () => {
+  /*describe( 'onInit', () => {
     it('should ', () => {
 
     });
-  });
-
-  /*it('should ', () => {
-    expect(component).
   });*/
 });
 
