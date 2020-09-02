@@ -1,0 +1,26 @@
+
+<form (ngSubmit)="onSubmit()" [formGroup]="createRecordForm" class="create-form">
+  <section class="surname-form">
+    <label for="surnameInput">Фамилия</label>
+    <input type="text" id="surnameInput" [class.error]="errors.surname" class="form-control" formControlName="surname">
+  </section>
+
+  <section class="name-form">
+    <label for="nameInput">Имя</label>
+    <input type="text" [class.error]="errors.name" class="form-control" formControlName="name" id="nameInput">
+  </section>
+
+  <section class="patronymic-from">
+    <label for="patronymicInput">Отчество</label>
+    <input type="text" [class.error]="errors.patronymic" class="form-control" id="patronymicInput" formControlName="patronymic">
+  </section>
+
+  <section class="phone-form">
+    <label for="phoneInput">Телефон</label>
+    <input type="text" [class.error]="errors.phone" class="form-control" id="phoneInput" formControlName="phone">
+  </section>
+
+  <section class="additional-button">
+    <button type="submit" class="add-btn btn btn-success">+</button>
+  </section>
+</form>

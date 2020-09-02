@@ -1,0 +1,18 @@
+.table-row {
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr 1fr 1fr 30px;
+  border-top: 1px solid #c3c3c3;
+  height: 50px;
+
+  .table-cell {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .favorite-cell {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

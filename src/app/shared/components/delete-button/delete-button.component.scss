@@ -1,0 +1,16 @@
+.delete-button {
+  display: inline;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+
+  .delete-icon {
+    display: inline-flex;
+    color: red;
+    transform: rotate(45deg);
+    cursor: pointer;
+    height: 20px;
+    padding: 0;
+    margin: 0;
+  }
+}

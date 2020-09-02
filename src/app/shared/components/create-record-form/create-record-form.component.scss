@@ -1,0 +1,15 @@
+
+.create-form {
+  display: flex;
+  justify-content: space-between;
+
+  .error {
+    border-color: red;
+  }
+
+  .additional-button {
+    .add-btn {
+      margin-top: 32px;
+    }
+  }
+}

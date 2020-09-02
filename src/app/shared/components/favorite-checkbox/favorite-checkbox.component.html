@@ -1,0 +1,5 @@
+<section class="favorite-checkbox">
+  <input [formControl]="favorite" (click)="checkedInput()" type="checkbox" class="favorite-input"
+         id="{{'favorite-input-'+rowId}}" name="{{'favorite-input-'+rowId}}">
+  <label for="{{'favorite-input-'+rowId}}" class="favorite-star"></label>
+</section>

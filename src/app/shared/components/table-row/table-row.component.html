@@ -1,0 +1,12 @@
+<section class="table-row">
+  <section class="favorite-cell">
+    <app-favorite-checkbox (checked)="checkedInput($event)" [rowData]="rowData" [rowId]="rowId"></app-favorite-checkbox>
+  </section>
+  <section class="table-cell surname-cell">{{rowData.surname}}</section>
+  <section class="table-cell name-cell">{{rowData.name}}</section>
+  <section class="table-cell patronymic-cell">{{rowData.patronymic}}</section>
+  <section class="table-cell phone-cell">{{rowData.phone}}</section>
+  <section class="delete-cell">
+    <app-delete-button (delete)="deleteRecord()" [rowId]="rowId" ></app-delete-button>
+  </section>
+</section>

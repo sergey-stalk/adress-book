@@ -1,0 +1,13 @@
+.table-header {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr 1fr 1fr 30px;
+
+  .table-header-cell {
+    font-weight: 600;
+  }
+
+  .empty-cell {
+    width: 50px;
+  }
+}

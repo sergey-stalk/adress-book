@@ -1,0 +1,11 @@
+<section class="table-wrapper">
+ <app-table-header></app-table-header>
+  <ng-container *ngIf="tableData">
+    <app-table-row *ngFor="let rowData of tableData; let i = index"
+                   [rowId]="i"
+                   [rowData]="rowData"
+                   (delete)="deleteRecord($event)"
+                   (checked)="checkedInput($event)"
+    ></app-table-row>
+  </ng-container>
+</section>
