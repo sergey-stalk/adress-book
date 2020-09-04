@@ -36,7 +36,6 @@ export class CreateRecordFormComponent implements OnInit {
       this.httpService.putData(this.tableData);
       this.createRecordForm.reset();
       this.resetError();
-      console.log(this.createRecordForm);
     } else {
       this.getError();
     }
@@ -54,7 +53,7 @@ export class CreateRecordFormComponent implements OnInit {
     this.errors = errorKey.reduce(( acc, cur) => ({ ...acc, [cur]: false }), {}) as IFormError;
   }
 
-  private getInitialFormControl(validatorPattern: RegExp = inputPhoneRegExp): FormControl {
+  private getInitialFormControl(validatorPattern: RegExp = inputTextRegExp): FormControl {
     return new FormControl('', [Validators.required, Validators.pattern(validatorPattern)]);
   }
 
@@ -75,7 +74,7 @@ export class CreateRecordFormComponent implements OnInit {
       surname: this.getInitialFormControl(),
       name: this.getInitialFormControl(),
       patronymic: this.getInitialFormControl(),
-      phone: this.getInitialFormControl(inputTextRegExp)
+      phone: this.getInitialFormControl(inputPhoneRegExp)
     });
   }
 }
