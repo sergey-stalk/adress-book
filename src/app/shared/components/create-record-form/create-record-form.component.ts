@@ -36,6 +36,7 @@ export class CreateRecordFormComponent implements OnInit {
       this.httpService.putData(this.tableData);
       this.createRecordForm.reset();
       this.resetError();
+      console.log(this.createRecordForm);
     } else {
       this.getError();
     }

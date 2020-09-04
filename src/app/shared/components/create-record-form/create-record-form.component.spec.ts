@@ -33,7 +33,38 @@ describe('CreateRecordFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateRecordFormComponent);
     component = fixture.componentInstance;
+    component.createRecordForm = [{
+      name: 'surname',
+      value: '',
+      inputType: 'input',
+      id: 'surnameInput',
+      required: true,
+      pattern: 'validatorPattern'
+    }, {
+      name: 'name',
+      value: '',
+      inputType: 'input',
+      id: 'nameInput',
+      required: true,
+      pattern: 'inputTextRegExp'
+    }, {
+      name: 'patronymic',
+      value: '',
+      inputType: 'input',
+      id: 'patronymicInput',
+      required: true,
+      pattern: 'inputTextRegExp'
+    }, {
+      name: 'phone',
+      value: '',
+      inputType: 'input',
+      id: 'phoneInput',
+      required: true,
+      pattern: 'inputPhoneRegExp'
+    }];
 
+    component.ngOnInit();
+    fixture.detectChanges();
     httpService = TestBed.get(HttpService);
   });
 
@@ -47,16 +78,17 @@ describe('CreateRecordFormComponent', () => {
         delay(1)
       ));
       component.ngOnInit();
-
-      fixture.detectChanges();
-
       expect(component.tableData).toBeUndefined();
       expect(httpService.getTableData).toHaveBeenCalled();
 
       tick(1);
-      console.log(component);
+      fixture.detectChanges();
       expect(component.tableData).toEqual([httpDataMock]);
     }));
+
+    it('should render input components', () => {
+
+    });
   });
 });
 
