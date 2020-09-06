@@ -13,7 +13,7 @@ export class FavoriteCheckboxComponent implements OnInit {
   @Input() rowData: IRowData;
   @Output() checked = new EventEmitter();
 
-  favorite = new FormControl(false);
+  favorite: FormControl = new FormControl(false);
 
   ngOnInit(): void {
     this.favorite.setValue(this.rowData.favorite);

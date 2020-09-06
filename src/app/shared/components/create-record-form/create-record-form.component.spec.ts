@@ -6,7 +6,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {delay} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 
 const httpDataMock = {
   surname: 'matveev',

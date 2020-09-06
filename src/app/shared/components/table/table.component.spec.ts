@@ -15,6 +15,54 @@ const httpDataMock = {
   favorite: false
 };
 
+const tableDataBeforeActionMock = [{
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: false
+}, {
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: true
+}];
+
+const tableDataAfterActionMock = [{
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: true
+}, {
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: false
+}];
+
+const tableDataAfterCheckBoxMock = [{
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: false
+}, {
+  surname: 'matveev',
+  name: 'serhii',
+  phone: '+79261234567',
+  patronymic: 'illich',
+  favorite: false
+}];
+
+const favoriteCheckBoxMock = {
+  id: '1',
+  value: true
+};
+
+
 describe('TableComponent', () => {
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
@@ -65,7 +113,37 @@ describe('TableComponent', () => {
 
   describe('sortFavorite', () => {
     it('should sort table data by favorite', () => {
-      expect(component.sortFavorite([httpDataMock])).toEqual(component.sortFavorite(component.tableData));
+      component.sortFavorite(tableDataBeforeActionMock);
+      expect(tableDataBeforeActionMock).toEqual(tableDataAfterActionMock);
+    });
+  });
+
+  describe('deleteRecord', () => {
+    it('should delete current item', () => {
+      component.tableData = tableDataAfterActionMock;
+      expect(component.tableData.length).toEqual(2);
+      component.deleteRecord('1');
+      const result = tableDataAfterActionMock.filter((item, i) => i !== 1);
+      expect(component.tableData.length).toEqual(1);
+      expect(component.tableData).toEqual(result);
+      spyOn(httpService, 'putData');
+      httpService.putData(component.tableData);
+      expect(httpService.putData).toHaveBeenCalledWith(component.tableData);
+    });
+  });
+
+  describe('checkedInput', () => {
+    it('should item change status after checked', () => {
+      component.tableData = tableDataAfterCheckBoxMock;
+      component.checkedInput(favoriteCheckBoxMock);
+      tableDataAfterCheckBoxMock[1].favorite = true;
+      expect(component.tableData).toEqual(tableDataAfterCheckBoxMock);
+      component.checkedInput({ id: '1', value: false });
+      tableDataAfterCheckBoxMock[1].favorite = false;
+      expect(component.tableData).toEqual(tableDataAfterCheckBoxMock);
+      spyOn(httpService, 'putData');
+      httpService.putData(component.tableData);
+      expect(httpService.putData).toHaveBeenCalledWith(component.tableData);
     });
   });
 });
