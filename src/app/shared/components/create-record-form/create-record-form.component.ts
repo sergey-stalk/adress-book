@@ -22,7 +22,7 @@ export class CreateRecordFormComponent implements OnInit {
 
   createRecordForm: FormGroup;
 
-  tableData: IRowData[];
+  tableData: IRowData[] = [];
 
   ngOnInit(): void {
     this.listenOnTableDataLoaded();
@@ -32,6 +32,7 @@ export class CreateRecordFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.createRecordForm.valid) {
+      console.log(this.tableData);
       this.tableData.push({...this.createRecordForm.value, favorite: false});
       this.httpService.putData(this.tableData);
       this.createRecordForm.reset();
@@ -59,7 +60,7 @@ export class CreateRecordFormComponent implements OnInit {
 
   private listenOnTableDataLoaded(): void {
     this.httpService.getTableData().subscribe(({ data }: ITableData) => {
-      this.tableData = [ ...data ];
+      this.tableData = data;
     });
   }
 

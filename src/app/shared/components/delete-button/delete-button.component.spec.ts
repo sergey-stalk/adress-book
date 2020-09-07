@@ -22,4 +22,18 @@ describe('DeleteButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('onInit', () => {
+    it('should emit delete action', () => {
+      spyOn(component.delete, 'emit');
+
+      const nativeElement = fixture.nativeElement;
+      const deleteButton = nativeElement.querySelector('h2');
+      deleteButton.dispatchEvent(new Event('click'));
+
+      fixture.detectChanges();
+
+      expect(component.delete.emit).toHaveBeenCalled();
+    });
+  });
 });

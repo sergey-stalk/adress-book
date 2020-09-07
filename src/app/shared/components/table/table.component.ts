@@ -27,8 +27,8 @@ export class TableComponent implements OnInit, OnDestroy {
         this.componentDestroyed$.next(true);
     }
 
-    sortFavorite(data: IRowData[]): void {
-        this.tableData = data.sort((item) => item.favorite ? -1 : 1);
+    sortFavorite(data): void {
+      this.tableData = data.sort((item) => item.favorite ? -1 : 1);
     }
 
     deleteRecord(id: string): void {
